@@ -38,7 +38,7 @@ public class UserRepository(AppDbContext context) : BaseRepository(context)
         return _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
     }
 
-    public void AddAsync(User user)
+    public void Add(User user)
     {
         _context.Users.Add(user);
     }

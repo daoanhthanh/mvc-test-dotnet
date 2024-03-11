@@ -39,7 +39,7 @@ public class UserService
             DoB = user.DoB
         };
         
-        _userRepo.AddAsync(u);
+        _userRepo.Add(u);
         return _commit.SaveChangesAsync()
             .ContinueWith(r => r.Result > 0);
     }
