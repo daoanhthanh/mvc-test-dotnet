@@ -11,8 +11,11 @@ namespace be_aspnet_demo;
 public class Startup
 {
     private readonly IConfiguration _configuration;
-
-    public Startup(IConfiguration configuration) => _configuration = configuration;
+    
+    public Startup(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -35,7 +38,7 @@ public class Startup
             string? database = _configuration["Database:Schema"];
             string connectionString =
                 $"Server={server}; Port={port}; User ID={userId}; Password={password}; Database={database}";
-            Console.WriteLine(connectionString);
+            Console.WriteLine($"Connecting to {connectionString}");
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         });
 
@@ -45,6 +48,10 @@ public class Startup
         services.AddSingleton<SnowFlakeId>();
 
         services.AddAutoMapper(typeof(Startup));
+        
+        
+        // var logger = services.BuildServiceProvider().GetService<ILogger<ApplicationLog>>();
+        // services.AddSingleton(typeof(ILogger), logger);
 
         services.AddCustomSwagger();
     }
@@ -57,12 +64,12 @@ public class Startup
 
             app.UseCustomSwagger();
         }
-        
+
         using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            
-            context.Database.MigrateAsync();
+
+            context.Database.Migrate();
         }
 
         app.UseRouting();

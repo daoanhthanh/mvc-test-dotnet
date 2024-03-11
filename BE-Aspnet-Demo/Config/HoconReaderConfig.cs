@@ -22,7 +22,7 @@ public static class HoconReaderConfig
                         optional: true,
                         reloadOnChange: true);
 
-                if (env.IsDevelopment())
+                if (env.IsDevelopment() || env.IsEnvironment("Local"))
                 {
                     var appAssembly = Assembly.Load(new AssemblyName(env.ApplicationName));
                     

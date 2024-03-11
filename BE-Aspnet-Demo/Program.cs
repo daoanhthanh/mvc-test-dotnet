@@ -16,5 +16,10 @@ public class Program
             .ConfigureWebHostDefaults(
                 webBuilder => { webBuilder.UseStartup<Startup>(); }
             )
+            .ConfigureLogging(logging =>
+            {
+                logging.ClearProviders();
+                logging.AddConsole();
+            })
             .ConfigureHoconReader(args);
 }
